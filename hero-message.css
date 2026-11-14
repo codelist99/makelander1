@@ -1,0 +1,2 @@
+.hero h1.hero-message{font-size:clamp(44px,5vw,66px);line-height:.94;letter-spacing:-1px}
+@media(max-width:760px){.hero h1.hero-message{font-size:clamp(39px,11.5vw,52px);line-height:.97}}
