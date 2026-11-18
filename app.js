@@ -1,4 +1,4 @@
-const destination='https://makewellness.com/630BA81D95/Shopping/item?itemid=22';
+const destination='https://makewellness.com/630BA81D95/shopping/item?itemId=22&categoryID=11';
 document.getElementById('leadForm').addEventListener('submit',event=>{
   event.preventDefault();
   location.href=destination;
