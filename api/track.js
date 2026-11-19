@@ -1,4 +1,4 @@
-const { dayKey, json, pipeline } = require('./_store');
+const { getSql, json } = require('./_db');
 
 const products = new Set(['lean', 'fit', 'make3']);
 const ctas = new Set(['lead-form', 'product-card', 'bundle-shop', 'footer']);
@@ -10,15 +10,9 @@ module.exports = async function handler(req, res) {
   const cta = String(req.body?.cta || '').toLowerCase();
   if (!products.has(product) || !ctas.has(cta)) return json(res, 400, { error: 'Invalid tracking event' });
 
-  const day = dayKey();
   try {
-    await pipeline([
-      ['INCR', 'clicks:total'],
-      ['INCR', `clicks:product:${product}`],
-      ['INCR', `clicks:cta:${cta}`],
-      ['INCR', `clicks:day:${day}`],
-      ['INCR', `clicks:day:${day}:${product}`]
-    ]);
+    const sql = await getSql();
+    await sql`INSERT INTO offer_clicks (offer_key, product, cta) VALUES ('makelean', ${product}, ${cta})`;
     return json(res, 200, { ok: true });
   } catch (error) {
     console.error('Click tracking failed:', error.message);

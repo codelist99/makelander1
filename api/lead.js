@@ -1,5 +1,5 @@
 const { randomUUID } = require('node:crypto');
-const { dayKey, json, pipeline } = require('./_store');
+const { getSql, json } = require('./_db');
 
 const clean = (value, max) => String(value || '').trim().replace(/[\u0000-\u001f\u007f]/g, '').slice(0, max);
 
@@ -15,16 +15,10 @@ module.exports = async function handler(req, res) {
     return json(res, 400, { error: 'Please provide a valid name, email, and consent.' });
   }
 
-  const submittedAt = new Date().toISOString();
-  const lead = { id: randomUUID(), firstName, lastName, email, phone, consent, submittedAt };
-  const day = dayKey();
   try {
-    await pipeline([
-      ['LPUSH', 'leads:recent', JSON.stringify(lead)],
-      ['LTRIM', 'leads:recent', '0', '499'],
-      ['INCR', 'leads:total'],
-      ['INCR', `leads:day:${day}`]
-    ]);
+    const sql = await getSql();
+    await sql`INSERT INTO offer_leads (id, offer_key, first_name, last_name, email, phone, consent)
+      VALUES (${randomUUID()}, 'makelean', ${firstName}, ${lastName}, ${email}, ${phone}, ${consent})`;
     return json(res, 201, { ok: true });
   } catch (error) {
     console.error('Lead storage failed:', error.message);
