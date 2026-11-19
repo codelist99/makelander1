@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>MAKE Landing Page Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <section class="login-card" id="loginPanel">
+      <span class="eyebrow">PRIVATE REPORTING</span>
+      <h1>Landing page admin</h1>
+      <p>Enter the admin password to view checkout clicks and opt-in leads.</p>
+      <form id="loginForm">
+        <label>Admin password<input id="password" type="password" autocomplete="current-password" required></label>
+        <button type="submit">OPEN DASHBOARD</button>
+        <p class="error" id="loginError" role="alert"></p>
+      </form>
+    </section>
+
+    <section class="dashboard" id="dashboard" hidden>
+      <header><div><span class="eyebrow">MAKE WELLNESS</span><h1>Performance dashboard</h1></div><div class="header-actions"><button class="secondary" id="refreshButton">Refresh</button><button class="secondary" id="logoutButton">Log out</button></div></header>
+      <p class="updated" id="updatedAt"></p>
+      <div class="metric-grid">
+        <article><span>Total checkout clicks</span><strong id="totalClicks">0</strong></article>
+        <article><span>LEAN clicks</span><strong id="leanClicks">0</strong></article>
+        <article><span>FIT clicks</span><strong id="fitClicks">0</strong></article>
+        <article><span>MAKE 3 clicks</span><strong id="make3Clicks">0</strong></article>
+        <article class="lead-metric"><span>Total opt-ins</span><strong id="totalLeads">0</strong></article>
+      </div>
+
+      <section class="panel"><div class="panel-heading"><div><span class="eyebrow">LAST 30 DAYS</span><h2>Daily activity</h2></div></div><div class="daily-chart" id="dailyChart"></div></section>
+      <section class="panel"><div class="panel-heading"><div><span class="eyebrow">MOST RECENT 200</span><h2>Opt-in leads</h2></div><button class="secondary" id="exportButton">Export CSV</button></div><div class="table-wrap"><table><thead><tr><th>Submitted</th><th>Name</th><th>Email</th><th>Phone</th><th>Consent</th></tr></thead><tbody id="leadRows"></tbody></table><p class="empty" id="emptyLeads" hidden>No opt-ins have been recorded yet.</p></div></section>
+      <p class="error" id="dashboardError" role="alert"></p>
+    </section>
+  </main>
+  <script src="/admin.js"></script>
+</body>
+</html>
